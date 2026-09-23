@@ -77,7 +77,12 @@ if st.button("🩺 افحص إجابتي في العيادة"):
     else:
         try:
             genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            # تجربة الاتصال بالنموذج المتاح
+            try:
+                model = genai.GenerativeModel('gemini-1.5-flash-latest')
+            except:
+                model = genai.GenerativeModel('gemini-1.5-pro')
             
             prompt = f"""
             أنت معلم رياضيات داعم ومخصص للمرحلة الإعدادية.
@@ -103,4 +108,3 @@ if st.button("🩺 افحص إجابتي في العيادة"):
                 
         except Exception as e:
             st.error(f"حدث خطأ أثناء الاتصال: {e}")
-      
