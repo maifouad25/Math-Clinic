@@ -78,18 +78,8 @@ if st.button("🩺 افحص إجابتي في العيادة"):
         try:
             genai.configure(api_key=api_key)
             
-            # البحث التلقائي الديناميكي عن النموذج المدعوم لمفتاحك
-            active_model_name = None
-            for m in genai.list_models():
-                if 'generateContent' in m.supported_generation_methods:
-                    active_model_name = m.name
-                    if 'flash' in m.name:
-                        break
-            
-            if not active_model_name:
-                active_model_name = 'gemini-1.5-flash'
-
-            model = genai.GenerativeModel(active_model_name)
+            # التحديث للنموذج المعتمد رسمياً gemini-3.6-flash
+            model = genai.GenerativeModel('gemini-3.6-flash')
             
             prompt = f"""
             أنت معلم رياضيات داعم ومخصص للمرحلة الإعدادية.
