@@ -75,15 +75,15 @@ if st.button("🩺 افحص إجابتي في العيادة"):
     elif not student_answer:
         st.warning("يرجى كتابة إجابتك قبل الفحص.")
     else:
-       try:
+        try:
             genai.configure(api_key=api_key)
             
-            # البحث التلقائي الديناميكي عن أحدث نموذج مدعوم لمفتاحك
+            # البحث التلقائي الديناميكي عن النموذج المدعوم لمفتاحك
             active_model_name = None
             for m in genai.list_models():
                 if 'generateContent' in m.supported_generation_methods:
                     active_model_name = m.name
-                    if 'flash' in m.name: # تفضيل نموذج flash لسرعته
+                    if 'flash' in m.name:
                         break
             
             if not active_model_name:
