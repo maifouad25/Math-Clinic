@@ -75,14 +75,21 @@ if st.button("🩺 افحص إجابتي في العيادة"):
     elif not student_answer:
         st.warning("يرجى كتابة إجابتك قبل الفحص.")
     else:
-        try:
+       try:
             genai.configure(api_key=api_key)
             
-            # تجربة الاتصال بالنموذج المتاح
-            try:
-                model = genai.GenerativeModel('gemini-1.5-flash-latest')
-            except:
-                model = genai.GenerativeModel('gemini-1.5-pro')
+            # البحث التلقائي الديناميكي عن أحدث نموذج مدعوم لمفتاحك
+            active_model_name = None
+            for m in genai.list_models():
+                if 'generateContent' in m.supported_generation_methods:
+                    active_model_name = m.name
+                    if 'flash' in m.name: # تفضيل نموذج flash لسرعته
+                        break
+            
+            if not active_model_name:
+                active_model_name = 'gemini-1.5-flash'
+
+            model = genai.GenerativeModel(active_model_name)
             
             prompt = f"""
             أنت معلم رياضيات داعم ومخصص للمرحلة الإعدادية.
